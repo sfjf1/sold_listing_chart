@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Ebay sports cards search</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <script src="assets/js/soldListings.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+</head>
+
+<body>
+    <div class="user_input">
+        <h2>Sold Listings</h2>
+        <div class="error_message"></div>
+        <form id="myform" onsubmit="return resp_data2();">
+            <div class="input_field">
+                <label for="Keyword">Keywords</label>
+                <input type="text" placeholder="Keywords" id="keywords">
+            </div>
+
+            <div class="btn">
+                <input type="submit">
+            </div>
+        </form>
+    </div>
+    
+    <canvas id="lineChart" height=="400" width="400"></canvas>
+
+    <script>
+        var ctx = document.getElementById('lineChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'],
+                datasets: [{
+                    label: 'My First dataset',
+                    backgroundColor: 'rgb(77, 148, 255)',
+                    borderColor: 'rgb(77, 148, 255)',
+                    data: [0, 10, 5, 2, 20, 30, 45, 100]
+                }]
+            },
+
+            // Configuration options go here
+            options: {}
+        });
+
+    </script>
+    
+    <br>
+
+    <div class="results" id="results">
+        <div id="items"></div>
+    </div>
+
+</body>
+
+</html>
