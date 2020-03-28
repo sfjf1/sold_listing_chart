@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Ebay sports cards search</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <script src="assets/js/soldPriceChart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+</head>
+
+<body>
+    <div class="user_input">
+        <h2>Sold Listings</h2>
+        <div class="error_message"></div>
+        <form id="myform" onsubmit="return resp_data();">
+            <div class="input_field">
+                <label for="Keyword">Keywords</label>
+                <input type="text" placeholder="Keywords" id="keywords">
+            </div>
+
+            <div class="btn">
+                <input type="submit">
+            </div>
+        </form>
+    </div>
+    
+    <canvas id="lineChart" height="200" width="300"></canvas>
+
+    <br>
+
+    <div class="results" id="results">
+        <div id="items"></div>
+    </div>
+
+</body>
+
+</html>
