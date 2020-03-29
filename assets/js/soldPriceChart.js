@@ -19,9 +19,9 @@ console.log whatever;
 */
 
 function printSoldItems(items) {
-    var dateAndPrice = {
+    var dateAndPrice = {}
 
-    }
+    
 
     for (const i in items) {
         console.log(items[i])
@@ -71,28 +71,45 @@ function printSoldItems(items) {
         if (wasSold == "EndedWithSales") {
             var price = items[i]['sellingStatus'][0]['convertedCurrentPrice'][0].__value__
             var datetimeStr = String(items[i]["listingInfo"]["0"].endTime).split('T');
+            var webUrl = items[i]['viewItemURL']["0"]
             // var dateOfSale = document.createTextNode(datetimeStr[0].trim());
             console.log(datetimeStr[0])
             // dateAndPrice.date = datetimeStr[0]
             // dateAndPrice.price = price
-
-            dateAndPrice[datetimeStr[0]] = price
+            var itemDetails = {};
+            itemDetails["price"] = price
+            itemDetails["url"] = webUrl 
+            console.log(itemDetails)
+            dateAndPrice[datetimeStr[0]] = itemDetails
+            // console.log(dateAndPrice)
         }
     }
 
-   
-    const ctx = document.getElementById('lineChart').getContext('2d');
+    const cv = document.getElementById('lineChart')
+    const ctx = cv.getContext('2d');
     var xlabels = [];
     var ylabels = [];
+    var itemLinks = [];
     
+    // https://stackoverflow.com/questions/5467129/sort-javascript-object-by-key
+
     const orderedDateAndPrice = {};
     Object.keys(dateAndPrice).sort().forEach(function(key) {
         orderedDateAndPrice[key] = dateAndPrice[key]; 
     });
 
     for (let [key, value] of Object.entries(orderedDateAndPrice)) {
+        console.log("## <",value, ">")
         xlabels.push(key);
-        ylabels.push(value);
+        ylabels.push(value.price);
+        itemLinks.push(value.url);
+    }
+    cv.onclick = function(evt){
+        var activePoint = chart.getElementAtEvent(evt)[0];
+        console.log('activePoint label: ', chart.data.labels[activePoint._index])
+        console.log('activePoint value: ', chart.data.datasets[activePoint._datasetIndex].data[activePoint._index])
+        // console.log('activePoint link: ', chart.data.datasets[activePoint._datasetIndex].links[activePoint._index])
+        window.location = chart.data.datasets[activePoint._datasetIndex].links[activePoint._index]
     }
     const chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -107,14 +124,16 @@ function printSoldItems(items) {
                 backgroundColor: 'rgb(77, 148, 255)',
                 borderColor: 'rgb(77, 148, 255)',
                 data: ylabels,
+                links: itemLinks
             }]
         },
 
         // Configuration options go here
         options: {}
     });
-
+    
 }
+
 
 
 const fetchData = async () => {
